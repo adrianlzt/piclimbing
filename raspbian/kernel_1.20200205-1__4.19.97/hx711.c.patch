@@ -1,0 +1,18 @@
+--- iio/adc/hx711.c     2020-03-26 21:02:34.243411645 +0100
++++ iio/adc/hx711.c.fast_printk 2020-03-26 21:03:42.154374200 +0100
+@@ -292,6 +292,7 @@
+                                const struct iio_chan_spec *chan,
+                                int *val, int *val2, long mask)
+ {
++       printk("hx711_read_raw START");
+        struct hx711_data *hx711_data = iio_priv(indio_dev);
+
+        switch (mask) {
+@@ -305,6 +306,7 @@
+                if (*val < 0)
+                        return *val;
+
++               printk("hx711_read_raw END");
+                return IIO_VAL_INT;
+        case IIO_CHAN_INFO_SCALE:
+                *val = 0;

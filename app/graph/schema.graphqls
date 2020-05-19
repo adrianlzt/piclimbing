@@ -1,0 +1,194 @@
+"""
+Speed has all the data related with measuring speed exercises
+"""
+type Speed{
+	"""
+	Uniq identifier for each data pushed
+	"""
+	Id: Int!
+	"""
+	Absolute position (height) of the climber (meters)
+	"""
+	position: Float!
+	"""
+	Current speed of the climber (m/s)
+	"""
+	speed: Float!
+	"""
+	Number of pull ups done since the last reset
+	"""
+	pull_ups: Int
+	"""
+	Difference of speed between the fastest pull up and the latest one, in percentage (0-100)
+	"""
+	speed_loss: Float
+	"""
+	Speed of the last pull up (m/s)
+	"""
+	last_speed: Float
+	"""
+	Max speed since reset (m/s)
+	"""
+	max_speed: Float
+}
+
+"""
+Strength data
+"""
+type Strength{
+	"""
+	Time since the exercise started (seconds)
+	"""
+	time: Float
+	"""
+	Current strength (Newtons)
+	"""
+	strength: Float
+	"""
+	Max strength since reset (Newtons)
+	"""
+	max_strength: Float
+	"""
+	Average strength since reset (Newtons)
+	"""
+	avg_strength: Float
+	"""
+	RFD: rate of force development since reset (N/s)
+	Should be normalized with the weight in the frontend
+	"""
+	rfd: Float
+	"""
+	FTI: force-time integral since reset ()
+	Should be normalized with the weight?
+	"""
+	fti: Float
+	"""
+	Difference of strength between the max and the latest value, in percentage (0-100)
+	"""
+	strength_loss: Float
+	"""
+	Duty cycle
+	Percentage of exercise active vs rest
+	"""
+	duty_cycle: Float
+	"""
+	Time between measures (seconds)
+	"""
+	interval: Float
+}
+
+"""
+Notifications from the coach backend app to the user
+"""
+type Coach{
+	"""
+	Text with the notification
+	"""
+	message: String
+	status: COACH_STATUS
+}
+
+enum SPEED_COMMAND_TYPE{
+  SIMULATE
+	PAUSE
+	RESTART
+	RESET
+	CALIBRATE
+}
+
+enum STRENGTH_COMMAND_BACKEND_TYPE{
+	END
+}
+
+enum SPEED_COMMAND_BACKEND_TYPE{
+	END
+}
+
+enum STRENGTH_COMMAND_TYPE{
+  SIMULATE
+	PAUSE
+	RESTART
+	TARE
+	CALIBRATE
+	SAMPLING
+}
+
+"""
+Commands send from the client to the backend to control the state
+"""
+input SpeedCommand{
+	command: SPEED_COMMAND_TYPE
+	"""
+	Value associated with some commands
+	"""
+	value: Float
+}
+
+"""
+Commands send from the client to the backend to control the state
+"""
+input StrengthCommand{
+	command: STRENGTH_COMMAND_TYPE
+	"""
+	Value associated with some commands
+	"""
+	value: Float
+}
+
+type SpeedCommandBackend{
+	command: SPEED_COMMAND_BACKEND_TYPE
+	"""
+	Value associated with some commands
+	"""
+	value: Float
+}
+
+"""
+Commands send from the backend to the client to control the state
+"""
+type StrengthCommandBackend{
+	command: STRENGTH_COMMAND_BACKEND_TYPE
+	"""
+	Value associated with some commands
+	"""
+	value: Float
+}
+
+"""
+Response to commands
+"""
+type CommandResponse{
+	message: String
+}
+
+enum COACH_STATUS{
+	READY
+	PAUSED
+}
+
+type Subscription{
+	speed: Speed
+	strength: Strength
+	coach: Coach
+  """
+  Receive commands from the backend strengh realted
+  """
+  strengthBackendCommands: StrengthCommandBackend
+  """
+  Receive commands from the backend speed related
+  """
+  speedBackendCommands: SpeedCommandBackend
+}
+
+type Mutation{
+	strengthCommand(
+		params: StrengthCommand
+	): CommandResponse!
+	speedCommand(
+		params: SpeedCommand
+	): CommandResponse!
+}
+schema{
+	mutation: Mutation,
+	subscription: Subscription
+}

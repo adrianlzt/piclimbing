@@ -1,0 +1,12 @@
+--- node_modules/pondjs/lib/entry.js.orig       2020-05-17 22:36:46.567022822 +0200
++++ node_modules/pondjs/lib/entry.js    2020-05-17 22:37:17.744041247 +0200
+@@ -209,9 +209,3 @@
+  */
+ // Chrome debugging for immutable.js structures
+ var Immutable = require("immutable");
+-
+-var installDevTools = require("immutable-devtools");
+-
+-if (typeof window !== "undefined") {
+-  installDevTools(Immutable);
+-} // Structures

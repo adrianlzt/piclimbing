@@ -1,0 +1,23 @@
+NAME=piclimbing
+
+# TODO build frontend before pkger
+all: frontend pkger build_rpizero build_amd64 build_windows_amd64
+
+# Insert the frontend code in pkged.go
+pkger:
+	pkger
+
+build_rpizero:
+	CC=arm-linux-gnueabihf-gcc CGO_ENABLED=1 GOARCH=arm GOARM=6 go build -o ${NAME}.arm6 .
+
+build_amd64:
+	go build -o ${NAME} .
+
+build_windows_amd64:
+	GOOS=windows GOARCH=amd64 go build -o ${NAME}.exe
+
+.PHONY: all build_amd64 build_rpizero build_windows_amd64 pkger
+
+
+# vim:ft=make
+#

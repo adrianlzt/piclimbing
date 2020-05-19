@@ -1,0 +1,22 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	compatible = "brcm,bcm2835";
+
+	fragment@0 {
+		target-path = "/";
+		__overlay__ {
+
+			hx711: hx711 {
+				compatible = "avia,hx711";
+				sck-gpios = <&gpio 27 GPIO_ACTIVE_HIGH>;
+				dout-gpios = <&gpio 17 GPIO_ACTIVE_HIGH>;
+				avdd-supply = <&vdd_3v3_reg>;
+				status = "okay";
+			};
+		};
+	};
+};

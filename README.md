@@ -1,6 +1,8 @@
 # πclimbing
 Open source climbing assessment tool build on top of Raspberry Pi ZeroW.
 
+[Online demo](http://piclimbing.duckdns.org/)
+
 Climbers/coaches/investigators could use this tool to measure and training.
 
 The tool has two interfaces with the real world: one linear encoder (to measure speed) and on load cell (to measure force).

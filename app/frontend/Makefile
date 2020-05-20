@@ -1,7 +1,7 @@
 all: clean build
 
 clean:
-	gatsby build
+	gatsby clean
 
 build:
 	gatsby build

@@ -16,6 +16,9 @@ build_amd64:
 build_windows_amd64:
 	GOOS=windows GOARCH=amd64 go build -o ${NAME}.exe
 
+build_osx:
+	GOOS=darwin go build -o ${NAME}.osx
+
 .PHONY: all build_amd64 build_rpizero build_windows_amd64 pkger
 
 

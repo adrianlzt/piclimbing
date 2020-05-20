@@ -27,7 +27,6 @@ import {
 
 import { Link } from '@reach/router';
 import { GoogleApi } from '@lourd/react-google-api';
-import { GoogleClientId, GoogleApiKey, } from '../../settings';
 import 'regenerator-runtime/runtime';
 import { loadState, saveState } from '../../state/localStorage';
 import { client } from './client'
@@ -84,8 +83,8 @@ export default class Chrome extends React.Component<any, any> {
               'https://sheets.googleapis.com/$discovery/rest?version=v4',
               'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest',
             ]}
-            clientId={GoogleClientId}
-            apiKey={GoogleApiKey}>
+            clientId={process.env.GOOGLE_CLIENT_ID}
+            apiKey={process.env.GOOGLE_API_KEY}>
             {({ authorize, loading: apiLoading, signout, signedIn, error }) => (
               <div>
                 <EuiHeader className="chrHeader">

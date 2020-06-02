@@ -3,6 +3,7 @@ import { EuiText, EuiButton, EuiFlexGroup, EuiFlexItem } from '@elastic/eui';
 import { useMutation, useSubscription } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { setTimeout } from 'timers';
+import { EuiCheckbox } from '@elastic/eui';
 
 const CoachCmd = ({ climberStatus, setClimberStatus }) => {
   // TODO parametrize calibrate command. One command for both mutations
@@ -47,6 +48,14 @@ const CoachCmd = ({ climberStatus, setClimberStatus }) => {
     }
   `;
 
+  const RESTART_NON_STOP_CMD = gql`
+    mutation {
+      strengthCommand(params: { command: RESTART_NON_STOP }) {
+        message
+      }
+    }
+  `;
+
   const SIMULATE_CMD = gql`
     mutation {
       strengthCommand(params: { command: SIMULATE }) {
@@ -65,6 +74,7 @@ const CoachCmd = ({ climberStatus, setClimberStatus }) => {
   `;
 
   const [restartButton, {}] = useMutation(RESTART_CMD);
+  const [restartNonStopButton, {}] = useMutation(RESTART_NON_STOP_CMD);
   const [pauseButton, {}] = useMutation(PAUSE_CMD);
   const [tareButton, {}] = useMutation(TARE_CMD);
   const [simulateButton, {}] = useMutation(SIMULATE_CMD);
@@ -72,6 +82,7 @@ const CoachCmd = ({ climberStatus, setClimberStatus }) => {
   const [calibrateLessButton, {}] = useMutation(CALIBRATE_LESS_CMD);
   const [lastStop, setLastStop] = useState(0);
   const [startButton, setStartButton] = useState('Start');
+  const [nonStopSlider, setNonStopSlider] = useState(false);
 
   // Give 5" to get ready
   // Start capturing data one sec before, to avoid loosing first measures
@@ -88,8 +99,13 @@ const CoachCmd = ({ climberStatus, setClimberStatus }) => {
     }, 3000);
     setTimeout(() => {
       setStartButton('Start ... 1');
-      restartButton();
-      console.log('coach cmd activar climber');
+      if (nonStopSlider) {
+        restartNonStopButton(); // Start without automatic end detection
+        console.log('coach cmd start non stop mode');
+      } else {
+        restartButton(); // Start with automatic end detection
+        console.log('coach cmd start with automatic end');
+      }
       setClimberStatus(true);
     }, 4000);
     setTimeout(() => {
@@ -123,6 +139,7 @@ const CoachCmd = ({ climberStatus, setClimberStatus }) => {
 
   // https://reactjs.org/blog/2020/02/26/react-v16.13.0.html#warnings-for-some-updates-during-render
   useEffect(() => {
+    // Auto pause if we receive and "end" event from the backend
     // Each new render get the data from the last subscription message
     // Only execute pause() once
     if (
@@ -131,7 +148,11 @@ const CoachCmd = ({ climberStatus, setClimberStatus }) => {
       data.strengthBackendCommands.command === 'end' &&
       data.strengthBackendCommands.value !== lastStop
     ) {
-      pause();
+      // In non stop mode, the climber will stop manually when the exercise has finished
+      // Avoid auto detecting and end while doing a short release of the grip in endurance exercises
+      if (!nonStopSlider) {
+        pause();
+      }
       setLastStop(data.strengthBackendCommands.value);
     }
   });
@@ -176,6 +197,15 @@ const CoachCmd = ({ climberStatus, setClimberStatus }) => {
           <EuiButton color="warning" fill onClick={() => simulate()}>
             Simulate
           </EuiButton>
+        </EuiFlexItem>
+      </EuiFlexGroup>
+      <EuiFlexGroup>
+        <EuiFlexItem>
+          <EuiCheckbox
+            id="nonStop"
+            checked={nonStopSlider}
+            onChange={e => setNonStopSlider(e.target.checked)}
+            label="Non stop mode" />
         </EuiFlexItem>
       </EuiFlexGroup>
     </>

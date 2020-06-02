@@ -168,7 +168,7 @@ const StrengthExpectedPct = ({ strength_expected_pct, changeStrengthExpectedPct 
   <EuiFormRow
     label="Expected force margin"
     style={{ marginTop: '16px' }}
-    helpText="Margin to consider the strength value to be the expected">
+    helpText="Margin to consider the strength value in the expected range">
     <EuiFieldNumber
       value={strength_expected_pct}
       onChange={changeStrengthExpectedPct}

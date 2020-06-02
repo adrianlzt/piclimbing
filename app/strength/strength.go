@@ -31,14 +31,14 @@ import (
 	"time"
 
 	// TODO remove dependencies with speed package
-	"github.com/adrianlzt/piclimbing/backend/speed"
+
 	"github.com/go-logr/logr"
 	"gonum.org/v1/gonum/integrate"
 )
 
 const (
 	// LoadCellCalibrationFactor value to get readings in kg
-	// TODO create param to change force units to Newtons
+	// TODO move this parameters to a settings file
 	LoadCellCalibrationFactor = 0.0000628694
 	// LoadCellOffset value to get 0kg when the cell is hanging
 	LoadCellOffset = 8386793
@@ -46,6 +46,8 @@ const (
 	StrengthCommandPause Command = "pause"
 	// StrengthCommandRestart is the command to restart the gathering of data
 	StrengthCommandRestart Command = "restart"
+	// StrengthCommandRestartNonStop start gathering data, deactivating auto stop detection
+	StrengthCommandRestartNonStop Command = "restart_nonstop"
 	// StrengthCommandTare is the command to put the position to zero
 	StrengthCommandTare Command = "tare"
 	// StrengthCommandCalibrate is the command to adjust the delta increments of movement
@@ -62,8 +64,6 @@ const (
 	StrengthStartThreshold = 15.0
 	// ClientChannelSize is the default size for channels sending data to the client
 	ClientChannelSize = 10
-	// DefaultBodyWeight is the default value for body weight
-	DefaultBodyWeight = 74
 	// Gravity value to convert from Kg to Newtons
 	Gravity = 9.80665
 	// TareMessage text send to the client when executed command "tare"
@@ -76,6 +76,12 @@ const (
 	MeasuringMessage = "Measuring..."
 	// FinishedMessage text send to the client to notify that the app has detected the end of the exercise
 	FinishedMessage = "Finished"
+	// PausedMessage message send to the client when the app is not ready to run
+	PausedMessage = "Pause"
+	// StartMessage message send to the client when the app is ready to measure
+	StartMessage = "Ready"
+	// StartNonStopMessage message send to the client when the app is ready to measure without stop detection
+	StartNonStopMessage = "ReadyNonStop"
 	// LatestValueInterval is the lenght, in ms, of the latest data stored to make som calculations
 	LatestValueInterval = 500
 )
@@ -96,10 +102,6 @@ type Strength struct {
 	GatherTime float64
 	// BackendCmdChannel is used to signal client from start and end detection
 	BackendCmdChannel chan<- BackendCmd
-
-	// BodyWeight of the climber
-	// TODO remove, should be in the web app
-	BodyWeight float64
 
 	// rawDataChannel pass data from the capturer to the processor
 	rawDataChannel chan RawData
@@ -125,6 +127,11 @@ type Strength struct {
 
 	// active defines if the coach is ready or not
 	active bool
+
+	// nonstop indicates to the calculator that it should deactivate auto stop detection
+	// It is used for endurance exercises where the climber will release the force
+	// for small periods during the exercise
+	nonstop bool
 }
 
 // TODO clean unused structs
@@ -192,9 +199,6 @@ func (s *Strength) RunStrength() {
 
 	numberOfPreviousValuesStored := int(LatestValueInterval / s.GatherTime)
 	s.calculatorLatestValues = make([]Data, numberOfPreviousValuesStored)
-
-	// Default value
-	s.BodyWeight = DefaultBodyWeight
 
 	go s.Capture(s.rawDataChannel)
 	go s.Process(s.rawDataChannel, s.processorControlChannel, s.dataChannel)
@@ -286,9 +290,14 @@ func (s *Strength) Coach(dataCh chan Data, controlCh <-chan Control, processorCo
 				// back a command to pause
 				// Maybe it has sense, as it is the UI which have to decide what to do
 				s.active = false
+
+				// Stop the calculator and clean data
+				s.calculatorStrengthActive = false
+				s.calculatorLatestValues = s.calculatorLatestValues[:0]
+
 				// Pause the gather of metrics
 				processorControlCh <- c
-				msg := ClientMsg{speed.PausedMessage, false}
+				msg := ClientMsg{PausedMessage, false}
 				err := s.sendClientMsg(msg)
 				if err != nil {
 					s.Log.Error(err, "sending message to client", "msg", msg)
@@ -299,7 +308,20 @@ func (s *Strength) Coach(dataCh chan Data, controlCh <-chan Control, processorCo
 				reset = true
 				// Restart the gather of metrics
 				processorControlCh <- c
-				msg := ClientMsg{speed.StartMessage, false}
+				msg := ClientMsg{StartMessage, false}
+				err := s.sendClientMsg(msg)
+				if err != nil {
+					s.Log.Error(err, "sending message to client", "msg", msg)
+				}
+			case StrengthCommandRestartNonStop:
+				s.active = true
+				s.nonstop = true
+				// Reset signal to calculator
+				reset = true
+				// Restart the gather of metrics
+				c.Type = StrengthCommandRestart
+				processorControlCh <- c
+				msg := ClientMsg{StartNonStopMessage, false}
 				err := s.sendClientMsg(msg)
 				if err != nil {
 					s.Log.Error(err, "sending message to client", "msg", msg)
@@ -506,26 +528,21 @@ func (s *Strength) Calculator(data Data, reset bool) (exerciseDuration time.Dura
 			startCommand := BackendCmd{&c, &v}
 			cmd = &startCommand
 		}
-	}
-
-	// If the exercise is being done, calculate data
-	if s.calculatorStrengthActive {
+	} else {
+		// If the exercise is being done, calculate data
+		//
 		// Decides that the exercise has finished
 		end, positionRealEnd := s.calculateEnd()
 		// Ending the exercise and run the last round of measures
 		if end {
-			s.calculatorStrengthActive = false
 			// Correct the calculatorActiveValues, removing values after the real end
 			s.calculatorActiveValues = s.calculatorActiveValues[0:positionRealEnd]
-
-			// We have finished, clean data. Avoid false starts with old data
-			s.calculatorLatestValues = s.calculatorLatestValues[:0]
 
 			// TODO probably this should not be here and should be the coach the responsible of handling this message
 			// TODO are we using this? remove?
 			//s.sendClientMsg(ClientMsg{FinishedMessage, false})
 
-			s.Log.V(3).Info("start event detected")
+			s.Log.V(3).Info("end event detected")
 
 			realEndTime := s.calculatorActiveValues[positionRealEnd-1].Time
 			c := "end"
@@ -548,7 +565,7 @@ func (s *Strength) Calculator(data Data, reset bool) (exerciseDuration time.Dura
 
 		exerciseDuration = lastValidData.Time.Sub(s.calculatorExerciseStart)
 		maxStrength = &s.calculatorMaxStrength
-		as := AverageStrength(s.calculatorActiveValues)
+		as := AverageStrength(s.calculatorActiveValues, s.nonstop)
 		avgStrength = &as
 
 		sl := 100 - (100 * lastValidData.Strength / *maxStrength)
@@ -680,7 +697,7 @@ func (s *Strength) calculateStart() (bool, int) {
 		lastValues = 0
 	}
 
-	if AverageStrength(s.calculatorLatestValues[lastValues:]) > StrengthStartThreshold {
+	if AverageStrength(s.calculatorLatestValues[lastValues:], false) > StrengthStartThreshold {
 		realStartPosition := len(s.calculatorLatestValues) - 1
 		s.Log.V(3).Info("start exercise", "real start", s.calculatorLatestValues[realStartPosition].Time, "strength", s.calculatorLatestValues[realStartPosition].Strength)
 		return true, realStartPosition
@@ -693,6 +710,11 @@ func (s *Strength) calculateStart() (bool, int) {
 // TODO improve this function. Too confusing
 // TODO how to handle repeaters? How to differenciate finished from rest? Maybe need a command from the client
 func (s *Strength) calculateEnd() (bool, int) {
+	// If we are in NonStop mode, automatic detection is disabled
+	if s.nonstop {
+		return false, 0
+	}
+
 	// If it has no data, it has not finished
 	// Could not finish if we do not have at least two values
 	if len(s.calculatorActiveValues) <= 2 {
@@ -709,7 +731,7 @@ func (s *Strength) calculateEnd() (bool, int) {
 	// TODO remove this threshold detect and use only the derivate?
 	// With threshold, we are sending "erroneous" data to the client before we
 	// detect the real end
-	if AverageStrength(s.calculatorActiveValues[startIndex:]) < StrengthStartThreshold {
+	if AverageStrength(s.calculatorActiveValues[startIndex:], false) < StrengthStartThreshold {
 		// Once we have detected a big drop on the values, we use de derivative to find
 		// when does it started.
 		// We use the last 500ms
@@ -771,10 +793,18 @@ func (s *Strength) calculateEnd() (bool, int) {
 }
 
 // AverageStrength calculate the average of a slice of Data values
-func AverageStrength(data []Data) float64 {
+// nonstop param decides if small values should be ignored
+func AverageStrength(data []Data, nonstop bool) float64 {
 	sum := 0.0
+	ignoredValues := 0
 	for _, v := range data {
+		// In NonStop mode, don't use small values to compute the average
+		// TODO improve this using the end event detection?
+		if nonstop && v.Strength < StrengthStartThreshold {
+			ignoredValues++
+			continue
+		}
 		sum += v.Strength
 	}
-	return sum / float64(len(data))
+	return sum / float64(len(data)-ignoredValues)
 }

@@ -259,18 +259,20 @@ func (e StrengthCommandBackendType) MarshalGQL(w io.Writer) {
 type StrengthCommandType string
 
 const (
-	StrengthCommandTypeSimulate  StrengthCommandType = "SIMULATE"
-	StrengthCommandTypePause     StrengthCommandType = "PAUSE"
-	StrengthCommandTypeRestart   StrengthCommandType = "RESTART"
-	StrengthCommandTypeTare      StrengthCommandType = "TARE"
-	StrengthCommandTypeCalibrate StrengthCommandType = "CALIBRATE"
-	StrengthCommandTypeSampling  StrengthCommandType = "SAMPLING"
+	StrengthCommandTypeSimulate       StrengthCommandType = "SIMULATE"
+	StrengthCommandTypePause          StrengthCommandType = "PAUSE"
+	StrengthCommandTypeRestart        StrengthCommandType = "RESTART"
+	StrengthCommandTypeRestartNonStop StrengthCommandType = "RESTART_NON_STOP"
+	StrengthCommandTypeTare           StrengthCommandType = "TARE"
+	StrengthCommandTypeCalibrate      StrengthCommandType = "CALIBRATE"
+	StrengthCommandTypeSampling       StrengthCommandType = "SAMPLING"
 )
 
 var AllStrengthCommandType = []StrengthCommandType{
 	StrengthCommandTypeSimulate,
 	StrengthCommandTypePause,
 	StrengthCommandTypeRestart,
+	StrengthCommandTypeRestartNonStop,
 	StrengthCommandTypeTare,
 	StrengthCommandTypeCalibrate,
 	StrengthCommandTypeSampling,
@@ -278,7 +280,7 @@ var AllStrengthCommandType = []StrengthCommandType{
 
 func (e StrengthCommandType) IsValid() bool {
 	switch e {
-	case StrengthCommandTypeSimulate, StrengthCommandTypePause, StrengthCommandTypeRestart, StrengthCommandTypeTare, StrengthCommandTypeCalibrate, StrengthCommandTypeSampling:
+	case StrengthCommandTypeSimulate, StrengthCommandTypePause, StrengthCommandTypeRestart, StrengthCommandTypeRestartNonStop, StrengthCommandTypeTare, StrengthCommandTypeCalibrate, StrengthCommandTypeSampling:
 		return true
 	}
 	return false

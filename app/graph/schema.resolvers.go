@@ -21,6 +21,10 @@ func (r *mutationResolver) StrengthCommand(ctx context.Context, params *model.St
 		r.StrengthControlCh <- strength.Control{
 			Type: strength.StrengthCommandRestart,
 		}
+	case model.StrengthCommandTypeRestartNonStop:
+		r.StrengthControlCh <- strength.Control{
+			Type: strength.StrengthCommandRestartNonStop,
+		}
 	case model.StrengthCommandTypePause:
 		r.StrengthControlCh <- strength.Control{
 			Type: strength.StrengthCommandPause,

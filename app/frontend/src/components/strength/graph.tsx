@@ -26,6 +26,8 @@ const Graph = ({ events, unit }) => {
     timerange = new TimeRange(0, 1);
   }
 
+  // TODO add a line with the average value
+
   // TODO add marker to show the value where the mouse is
   // https://github.com/esnet/react-timeseries-charts/blob/master/src/website/packages/charts/examples/wind/Index.js#L90
   return (

@@ -165,7 +165,7 @@ func main() {
 	} else {
 		fmt.Printf("Go to: http://127.0.0.1.xip.io:%v\n", strconv.Itoa(*port))
 		// TODO not working
-		webbrowser.Open(fmt.Sprintf("http://127.0.0.1.xip.io:%v\n", strconv.Itoa(*port)))
+		webbrowser.Open(fmt.Sprintf("http://127.0.0.1.xip.io:%v", strconv.Itoa(*port)))
 	}
 
 	err := http.ListenAndServe(":"+strconv.Itoa(*port), router)

@@ -539,6 +539,7 @@ enum STRENGTH_COMMAND_TYPE{
   SIMULATE
 	PAUSE
 	RESTART
+	RESTART_NON_STOP
 	TARE
 	CALIBRATE
 	SAMPLING
@@ -636,7 +637,7 @@ func (ec *executionContext) field_Mutation_speedCommand_args(ctx context.Context
 	args := map[string]interface{}{}
 	var arg0 *model.SpeedCommand
 	if tmp, ok := rawArgs["params"]; ok {
-		arg0, err = ec.unmarshalOSpeedCommand2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeedCommand(ctx, tmp)
+		arg0, err = ec.unmarshalOSpeedCommand2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeedCommand(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -650,7 +651,7 @@ func (ec *executionContext) field_Mutation_strengthCommand_args(ctx context.Cont
 	args := map[string]interface{}{}
 	var arg0 *model.StrengthCommand
 	if tmp, ok := rawArgs["params"]; ok {
-		arg0, err = ec.unmarshalOStrengthCommand2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrengthCommand(ctx, tmp)
+		arg0, err = ec.unmarshalOStrengthCommand2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrengthCommand(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -768,7 +769,7 @@ func (ec *executionContext) _Coach_status(ctx context.Context, field graphql.Col
 	}
 	res := resTmp.(*model.CoachStatus)
 	fc.Result = res
-	return ec.marshalOCOACH_STATUS2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐCoachStatus(ctx, field.Selections, res)
+	return ec.marshalOCOACH_STATUS2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐCoachStatus(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _CommandResponse_message(ctx context.Context, field graphql.CollectedField, obj *model.CommandResponse) (ret graphql.Marshaler) {
@@ -840,7 +841,7 @@ func (ec *executionContext) _Mutation_strengthCommand(ctx context.Context, field
 	}
 	res := resTmp.(*model.CommandResponse)
 	fc.Result = res
-	return ec.marshalNCommandResponse2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐCommandResponse(ctx, field.Selections, res)
+	return ec.marshalNCommandResponse2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐCommandResponse(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_speedCommand(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -881,7 +882,7 @@ func (ec *executionContext) _Mutation_speedCommand(ctx context.Context, field gr
 	}
 	res := resTmp.(*model.CommandResponse)
 	fc.Result = res
-	return ec.marshalNCommandResponse2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐCommandResponse(ctx, field.Selections, res)
+	return ec.marshalNCommandResponse2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐCommandResponse(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1207,7 +1208,7 @@ func (ec *executionContext) _SpeedCommandBackend_command(ctx context.Context, fi
 	}
 	res := resTmp.(*model.SpeedCommandBackendType)
 	fc.Result = res
-	return ec.marshalOSPEED_COMMAND_BACKEND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeedCommandBackendType(ctx, field.Selections, res)
+	return ec.marshalOSPEED_COMMAND_BACKEND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeedCommandBackendType(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _SpeedCommandBackend_value(ctx context.Context, field graphql.CollectedField, obj *model.SpeedCommandBackend) (ret graphql.Marshaler) {
@@ -1548,7 +1549,7 @@ func (ec *executionContext) _StrengthCommandBackend_command(ctx context.Context,
 	}
 	res := resTmp.(*model.StrengthCommandBackendType)
 	fc.Result = res
-	return ec.marshalOSTRENGTH_COMMAND_BACKEND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrengthCommandBackendType(ctx, field.Selections, res)
+	return ec.marshalOSTRENGTH_COMMAND_BACKEND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrengthCommandBackendType(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _StrengthCommandBackend_value(ctx context.Context, field graphql.CollectedField, obj *model.StrengthCommandBackend) (ret graphql.Marshaler) {
@@ -1617,7 +1618,7 @@ func (ec *executionContext) _Subscription_speed(ctx context.Context, field graph
 			w.Write([]byte{'{'})
 			graphql.MarshalString(field.Alias).MarshalGQL(w)
 			w.Write([]byte{':'})
-			ec.marshalOSpeed2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeed(ctx, field.Selections, res).MarshalGQL(w)
+			ec.marshalOSpeed2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeed(ctx, field.Selections, res).MarshalGQL(w)
 			w.Write([]byte{'}'})
 		})
 	}
@@ -1658,7 +1659,7 @@ func (ec *executionContext) _Subscription_strength(ctx context.Context, field gr
 			w.Write([]byte{'{'})
 			graphql.MarshalString(field.Alias).MarshalGQL(w)
 			w.Write([]byte{':'})
-			ec.marshalOStrength2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrength(ctx, field.Selections, res).MarshalGQL(w)
+			ec.marshalOStrength2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrength(ctx, field.Selections, res).MarshalGQL(w)
 			w.Write([]byte{'}'})
 		})
 	}
@@ -1699,7 +1700,7 @@ func (ec *executionContext) _Subscription_coach(ctx context.Context, field graph
 			w.Write([]byte{'{'})
 			graphql.MarshalString(field.Alias).MarshalGQL(w)
 			w.Write([]byte{':'})
-			ec.marshalOCoach2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐCoach(ctx, field.Selections, res).MarshalGQL(w)
+			ec.marshalOCoach2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐCoach(ctx, field.Selections, res).MarshalGQL(w)
 			w.Write([]byte{'}'})
 		})
 	}
@@ -1740,7 +1741,7 @@ func (ec *executionContext) _Subscription_strengthBackendCommands(ctx context.Co
 			w.Write([]byte{'{'})
 			graphql.MarshalString(field.Alias).MarshalGQL(w)
 			w.Write([]byte{':'})
-			ec.marshalOStrengthCommandBackend2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrengthCommandBackend(ctx, field.Selections, res).MarshalGQL(w)
+			ec.marshalOStrengthCommandBackend2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrengthCommandBackend(ctx, field.Selections, res).MarshalGQL(w)
 			w.Write([]byte{'}'})
 		})
 	}
@@ -1781,7 +1782,7 @@ func (ec *executionContext) _Subscription_speedBackendCommands(ctx context.Conte
 			w.Write([]byte{'{'})
 			graphql.MarshalString(field.Alias).MarshalGQL(w)
 			w.Write([]byte{':'})
-			ec.marshalOSpeedCommandBackend2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeedCommandBackend(ctx, field.Selections, res).MarshalGQL(w)
+			ec.marshalOSpeedCommandBackend2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeedCommandBackend(ctx, field.Selections, res).MarshalGQL(w)
 			w.Write([]byte{'}'})
 		})
 	}
@@ -2850,7 +2851,7 @@ func (ec *executionContext) unmarshalInputSpeedCommand(ctx context.Context, obj 
 		switch k {
 		case "command":
 			var err error
-			it.Command, err = ec.unmarshalOSPEED_COMMAND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeedCommandType(ctx, v)
+			it.Command, err = ec.unmarshalOSPEED_COMMAND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeedCommandType(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -2874,7 +2875,7 @@ func (ec *executionContext) unmarshalInputStrengthCommand(ctx context.Context, o
 		switch k {
 		case "command":
 			var err error
-			it.Command, err = ec.unmarshalOSTRENGTH_COMMAND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrengthCommandType(ctx, v)
+			it.Command, err = ec.unmarshalOSTRENGTH_COMMAND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrengthCommandType(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -3438,11 +3439,11 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 	return res
 }
 
-func (ec *executionContext) marshalNCommandResponse2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐCommandResponse(ctx context.Context, sel ast.SelectionSet, v model.CommandResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNCommandResponse2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐCommandResponse(ctx context.Context, sel ast.SelectionSet, v model.CommandResponse) graphql.Marshaler {
 	return ec._CommandResponse(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNCommandResponse2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐCommandResponse(ctx context.Context, sel ast.SelectionSet, v *model.CommandResponse) graphql.Marshaler {
+func (ec *executionContext) marshalNCommandResponse2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐCommandResponse(ctx context.Context, sel ast.SelectionSet, v *model.CommandResponse) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -3743,35 +3744,35 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return ec.marshalOBoolean2bool(ctx, sel, *v)
 }
 
-func (ec *executionContext) unmarshalOCOACH_STATUS2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐCoachStatus(ctx context.Context, v interface{}) (model.CoachStatus, error) {
+func (ec *executionContext) unmarshalOCOACH_STATUS2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐCoachStatus(ctx context.Context, v interface{}) (model.CoachStatus, error) {
 	var res model.CoachStatus
 	return res, res.UnmarshalGQL(v)
 }
 
-func (ec *executionContext) marshalOCOACH_STATUS2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐCoachStatus(ctx context.Context, sel ast.SelectionSet, v model.CoachStatus) graphql.Marshaler {
+func (ec *executionContext) marshalOCOACH_STATUS2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐCoachStatus(ctx context.Context, sel ast.SelectionSet, v model.CoachStatus) graphql.Marshaler {
 	return v
 }
 
-func (ec *executionContext) unmarshalOCOACH_STATUS2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐCoachStatus(ctx context.Context, v interface{}) (*model.CoachStatus, error) {
+func (ec *executionContext) unmarshalOCOACH_STATUS2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐCoachStatus(ctx context.Context, v interface{}) (*model.CoachStatus, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOCOACH_STATUS2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐCoachStatus(ctx, v)
+	res, err := ec.unmarshalOCOACH_STATUS2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐCoachStatus(ctx, v)
 	return &res, err
 }
 
-func (ec *executionContext) marshalOCOACH_STATUS2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐCoachStatus(ctx context.Context, sel ast.SelectionSet, v *model.CoachStatus) graphql.Marshaler {
+func (ec *executionContext) marshalOCOACH_STATUS2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐCoachStatus(ctx context.Context, sel ast.SelectionSet, v *model.CoachStatus) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return v
 }
 
-func (ec *executionContext) marshalOCoach2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐCoach(ctx context.Context, sel ast.SelectionSet, v model.Coach) graphql.Marshaler {
+func (ec *executionContext) marshalOCoach2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐCoach(ctx context.Context, sel ast.SelectionSet, v model.Coach) graphql.Marshaler {
 	return ec._Coach(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalOCoach2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐCoach(ctx context.Context, sel ast.SelectionSet, v *model.Coach) graphql.Marshaler {
+func (ec *executionContext) marshalOCoach2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐCoach(ctx context.Context, sel ast.SelectionSet, v *model.Coach) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -3824,164 +3825,164 @@ func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.Sele
 	return ec.marshalOInt2int(ctx, sel, *v)
 }
 
-func (ec *executionContext) unmarshalOSPEED_COMMAND_BACKEND_TYPE2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeedCommandBackendType(ctx context.Context, v interface{}) (model.SpeedCommandBackendType, error) {
+func (ec *executionContext) unmarshalOSPEED_COMMAND_BACKEND_TYPE2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeedCommandBackendType(ctx context.Context, v interface{}) (model.SpeedCommandBackendType, error) {
 	var res model.SpeedCommandBackendType
 	return res, res.UnmarshalGQL(v)
 }
 
-func (ec *executionContext) marshalOSPEED_COMMAND_BACKEND_TYPE2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeedCommandBackendType(ctx context.Context, sel ast.SelectionSet, v model.SpeedCommandBackendType) graphql.Marshaler {
+func (ec *executionContext) marshalOSPEED_COMMAND_BACKEND_TYPE2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeedCommandBackendType(ctx context.Context, sel ast.SelectionSet, v model.SpeedCommandBackendType) graphql.Marshaler {
 	return v
 }
 
-func (ec *executionContext) unmarshalOSPEED_COMMAND_BACKEND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeedCommandBackendType(ctx context.Context, v interface{}) (*model.SpeedCommandBackendType, error) {
+func (ec *executionContext) unmarshalOSPEED_COMMAND_BACKEND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeedCommandBackendType(ctx context.Context, v interface{}) (*model.SpeedCommandBackendType, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOSPEED_COMMAND_BACKEND_TYPE2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeedCommandBackendType(ctx, v)
+	res, err := ec.unmarshalOSPEED_COMMAND_BACKEND_TYPE2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeedCommandBackendType(ctx, v)
 	return &res, err
 }
 
-func (ec *executionContext) marshalOSPEED_COMMAND_BACKEND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeedCommandBackendType(ctx context.Context, sel ast.SelectionSet, v *model.SpeedCommandBackendType) graphql.Marshaler {
+func (ec *executionContext) marshalOSPEED_COMMAND_BACKEND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeedCommandBackendType(ctx context.Context, sel ast.SelectionSet, v *model.SpeedCommandBackendType) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return v
 }
 
-func (ec *executionContext) unmarshalOSPEED_COMMAND_TYPE2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeedCommandType(ctx context.Context, v interface{}) (model.SpeedCommandType, error) {
+func (ec *executionContext) unmarshalOSPEED_COMMAND_TYPE2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeedCommandType(ctx context.Context, v interface{}) (model.SpeedCommandType, error) {
 	var res model.SpeedCommandType
 	return res, res.UnmarshalGQL(v)
 }
 
-func (ec *executionContext) marshalOSPEED_COMMAND_TYPE2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeedCommandType(ctx context.Context, sel ast.SelectionSet, v model.SpeedCommandType) graphql.Marshaler {
+func (ec *executionContext) marshalOSPEED_COMMAND_TYPE2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeedCommandType(ctx context.Context, sel ast.SelectionSet, v model.SpeedCommandType) graphql.Marshaler {
 	return v
 }
 
-func (ec *executionContext) unmarshalOSPEED_COMMAND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeedCommandType(ctx context.Context, v interface{}) (*model.SpeedCommandType, error) {
+func (ec *executionContext) unmarshalOSPEED_COMMAND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeedCommandType(ctx context.Context, v interface{}) (*model.SpeedCommandType, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOSPEED_COMMAND_TYPE2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeedCommandType(ctx, v)
+	res, err := ec.unmarshalOSPEED_COMMAND_TYPE2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeedCommandType(ctx, v)
 	return &res, err
 }
 
-func (ec *executionContext) marshalOSPEED_COMMAND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeedCommandType(ctx context.Context, sel ast.SelectionSet, v *model.SpeedCommandType) graphql.Marshaler {
+func (ec *executionContext) marshalOSPEED_COMMAND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeedCommandType(ctx context.Context, sel ast.SelectionSet, v *model.SpeedCommandType) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return v
 }
 
-func (ec *executionContext) unmarshalOSTRENGTH_COMMAND_BACKEND_TYPE2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrengthCommandBackendType(ctx context.Context, v interface{}) (model.StrengthCommandBackendType, error) {
+func (ec *executionContext) unmarshalOSTRENGTH_COMMAND_BACKEND_TYPE2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrengthCommandBackendType(ctx context.Context, v interface{}) (model.StrengthCommandBackendType, error) {
 	var res model.StrengthCommandBackendType
 	return res, res.UnmarshalGQL(v)
 }
 
-func (ec *executionContext) marshalOSTRENGTH_COMMAND_BACKEND_TYPE2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrengthCommandBackendType(ctx context.Context, sel ast.SelectionSet, v model.StrengthCommandBackendType) graphql.Marshaler {
+func (ec *executionContext) marshalOSTRENGTH_COMMAND_BACKEND_TYPE2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrengthCommandBackendType(ctx context.Context, sel ast.SelectionSet, v model.StrengthCommandBackendType) graphql.Marshaler {
 	return v
 }
 
-func (ec *executionContext) unmarshalOSTRENGTH_COMMAND_BACKEND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrengthCommandBackendType(ctx context.Context, v interface{}) (*model.StrengthCommandBackendType, error) {
+func (ec *executionContext) unmarshalOSTRENGTH_COMMAND_BACKEND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrengthCommandBackendType(ctx context.Context, v interface{}) (*model.StrengthCommandBackendType, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOSTRENGTH_COMMAND_BACKEND_TYPE2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrengthCommandBackendType(ctx, v)
+	res, err := ec.unmarshalOSTRENGTH_COMMAND_BACKEND_TYPE2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrengthCommandBackendType(ctx, v)
 	return &res, err
 }
 
-func (ec *executionContext) marshalOSTRENGTH_COMMAND_BACKEND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrengthCommandBackendType(ctx context.Context, sel ast.SelectionSet, v *model.StrengthCommandBackendType) graphql.Marshaler {
+func (ec *executionContext) marshalOSTRENGTH_COMMAND_BACKEND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrengthCommandBackendType(ctx context.Context, sel ast.SelectionSet, v *model.StrengthCommandBackendType) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return v
 }
 
-func (ec *executionContext) unmarshalOSTRENGTH_COMMAND_TYPE2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrengthCommandType(ctx context.Context, v interface{}) (model.StrengthCommandType, error) {
+func (ec *executionContext) unmarshalOSTRENGTH_COMMAND_TYPE2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrengthCommandType(ctx context.Context, v interface{}) (model.StrengthCommandType, error) {
 	var res model.StrengthCommandType
 	return res, res.UnmarshalGQL(v)
 }
 
-func (ec *executionContext) marshalOSTRENGTH_COMMAND_TYPE2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrengthCommandType(ctx context.Context, sel ast.SelectionSet, v model.StrengthCommandType) graphql.Marshaler {
+func (ec *executionContext) marshalOSTRENGTH_COMMAND_TYPE2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrengthCommandType(ctx context.Context, sel ast.SelectionSet, v model.StrengthCommandType) graphql.Marshaler {
 	return v
 }
 
-func (ec *executionContext) unmarshalOSTRENGTH_COMMAND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrengthCommandType(ctx context.Context, v interface{}) (*model.StrengthCommandType, error) {
+func (ec *executionContext) unmarshalOSTRENGTH_COMMAND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrengthCommandType(ctx context.Context, v interface{}) (*model.StrengthCommandType, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOSTRENGTH_COMMAND_TYPE2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrengthCommandType(ctx, v)
+	res, err := ec.unmarshalOSTRENGTH_COMMAND_TYPE2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrengthCommandType(ctx, v)
 	return &res, err
 }
 
-func (ec *executionContext) marshalOSTRENGTH_COMMAND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrengthCommandType(ctx context.Context, sel ast.SelectionSet, v *model.StrengthCommandType) graphql.Marshaler {
+func (ec *executionContext) marshalOSTRENGTH_COMMAND_TYPE2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrengthCommandType(ctx context.Context, sel ast.SelectionSet, v *model.StrengthCommandType) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return v
 }
 
-func (ec *executionContext) marshalOSpeed2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeed(ctx context.Context, sel ast.SelectionSet, v model.Speed) graphql.Marshaler {
+func (ec *executionContext) marshalOSpeed2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeed(ctx context.Context, sel ast.SelectionSet, v model.Speed) graphql.Marshaler {
 	return ec._Speed(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalOSpeed2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeed(ctx context.Context, sel ast.SelectionSet, v *model.Speed) graphql.Marshaler {
+func (ec *executionContext) marshalOSpeed2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeed(ctx context.Context, sel ast.SelectionSet, v *model.Speed) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._Speed(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOSpeedCommand2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeedCommand(ctx context.Context, v interface{}) (model.SpeedCommand, error) {
+func (ec *executionContext) unmarshalOSpeedCommand2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeedCommand(ctx context.Context, v interface{}) (model.SpeedCommand, error) {
 	return ec.unmarshalInputSpeedCommand(ctx, v)
 }
 
-func (ec *executionContext) unmarshalOSpeedCommand2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeedCommand(ctx context.Context, v interface{}) (*model.SpeedCommand, error) {
+func (ec *executionContext) unmarshalOSpeedCommand2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeedCommand(ctx context.Context, v interface{}) (*model.SpeedCommand, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOSpeedCommand2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeedCommand(ctx, v)
+	res, err := ec.unmarshalOSpeedCommand2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeedCommand(ctx, v)
 	return &res, err
 }
 
-func (ec *executionContext) marshalOSpeedCommandBackend2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeedCommandBackend(ctx context.Context, sel ast.SelectionSet, v model.SpeedCommandBackend) graphql.Marshaler {
+func (ec *executionContext) marshalOSpeedCommandBackend2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeedCommandBackend(ctx context.Context, sel ast.SelectionSet, v model.SpeedCommandBackend) graphql.Marshaler {
 	return ec._SpeedCommandBackend(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalOSpeedCommandBackend2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐSpeedCommandBackend(ctx context.Context, sel ast.SelectionSet, v *model.SpeedCommandBackend) graphql.Marshaler {
+func (ec *executionContext) marshalOSpeedCommandBackend2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐSpeedCommandBackend(ctx context.Context, sel ast.SelectionSet, v *model.SpeedCommandBackend) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._SpeedCommandBackend(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalOStrength2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrength(ctx context.Context, sel ast.SelectionSet, v model.Strength) graphql.Marshaler {
+func (ec *executionContext) marshalOStrength2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrength(ctx context.Context, sel ast.SelectionSet, v model.Strength) graphql.Marshaler {
 	return ec._Strength(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalOStrength2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrength(ctx context.Context, sel ast.SelectionSet, v *model.Strength) graphql.Marshaler {
+func (ec *executionContext) marshalOStrength2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrength(ctx context.Context, sel ast.SelectionSet, v *model.Strength) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._Strength(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOStrengthCommand2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrengthCommand(ctx context.Context, v interface{}) (model.StrengthCommand, error) {
+func (ec *executionContext) unmarshalOStrengthCommand2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrengthCommand(ctx context.Context, v interface{}) (model.StrengthCommand, error) {
 	return ec.unmarshalInputStrengthCommand(ctx, v)
 }
 
-func (ec *executionContext) unmarshalOStrengthCommand2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrengthCommand(ctx context.Context, v interface{}) (*model.StrengthCommand, error) {
+func (ec *executionContext) unmarshalOStrengthCommand2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrengthCommand(ctx context.Context, v interface{}) (*model.StrengthCommand, error) {
 	if v == nil {
 		return nil, nil
 	}
-	res, err := ec.unmarshalOStrengthCommand2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrengthCommand(ctx, v)
+	res, err := ec.unmarshalOStrengthCommand2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrengthCommand(ctx, v)
 	return &res, err
 }
 
-func (ec *executionContext) marshalOStrengthCommandBackend2githubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrengthCommandBackend(ctx context.Context, sel ast.SelectionSet, v model.StrengthCommandBackend) graphql.Marshaler {
+func (ec *executionContext) marshalOStrengthCommandBackend2githubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrengthCommandBackend(ctx context.Context, sel ast.SelectionSet, v model.StrengthCommandBackend) graphql.Marshaler {
 	return ec._StrengthCommandBackend(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalOStrengthCommandBackend2ᚖgithubᚗcomᚋadrianlztᚋentrenamientoEscaladaᚋgraphᚋmodelᚐStrengthCommandBackend(ctx context.Context, sel ast.SelectionSet, v *model.StrengthCommandBackend) graphql.Marshaler {
+func (ec *executionContext) marshalOStrengthCommandBackend2ᚖgithubᚗcomᚋadrianlztᚋpiclimbingᚋbackendᚋgraphᚋmodelᚐStrengthCommandBackend(ctx context.Context, sel ast.SelectionSet, v *model.StrengthCommandBackend) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}

@@ -161,11 +161,10 @@ func main() {
 	if runtime.GOOS == "linux" && runtime.GOARCH == "arm" {
 		// raspberry
 		// TODO detect IP address and use it instead of 127.0.0.1
-		fmt.Printf("Go to: http://127.0.0.1.xip.io:%v\n", strconv.Itoa(*port))
+		fmt.Printf("Go to: http://127.0.0.1.nip.io:%v\n", strconv.Itoa(*port))
 	} else {
-		fmt.Printf("Go to: http://127.0.0.1.xip.io:%v\n", strconv.Itoa(*port))
-		// TODO not working
-		webbrowser.Open(fmt.Sprintf("http://127.0.0.1.xip.io:%v", strconv.Itoa(*port)))
+		fmt.Printf("Go to: http://127.0.0.1.nip.io:%v\n", strconv.Itoa(*port))
+		go webbrowser.Open(fmt.Sprintf("http://127.0.0.1.nip.io:%v", strconv.Itoa(*port)))
 	}
 
 	err := http.ListenAndServe(":"+strconv.Itoa(*port), router)

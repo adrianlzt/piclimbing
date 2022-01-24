@@ -61,7 +61,7 @@ const (
 	// EndCommand message sent to the client with the real end time detected
 	EndCommand Command = "end"
 	// StrengthStartThreshold is the threshold used to decide a strength test is being done
-	StrengthStartThreshold = 15.0
+	StrengthStartThreshold = 15.0 // TODO should be parametrizable. Too high to measure single finger strength
 	// ClientChannelSize is the default size for channels sending data to the client
 	ClientChannelSize = 10
 	// Gravity value to convert from Kg to Newtons
@@ -544,6 +544,9 @@ func (s *Strength) Calculator(data Data, reset bool) (exerciseDuration time.Dura
 
 			s.Log.V(3).Info("end event detected")
 
+			if positionRealEnd-1 >= len(s.calculatorActiveValues) || positionRealEnd-1 < 0 {
+				s.Log.Error(fmt.Errorf("Impossible to get real end time"), "len(s.calculatorActiveValues)=%d, positionRealEnd=%d", len(s.calculatorActiveValues), positionRealEnd)
+			}
 			realEndTime := s.calculatorActiveValues[positionRealEnd-1].Time
 			c := "end"
 			v := float64(realEndTime.UnixNano()) / 1e9

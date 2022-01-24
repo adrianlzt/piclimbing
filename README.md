@@ -50,7 +50,7 @@ The board should allow a change in the sampling rate (pin RATE, check the [datas
 
 [This one](https://www.sparkfun.com/products/13879) allows it.
 
-I bought [this one](https://www.ebay.es/itm/HX711-Board-Chip-Waage-Gewichts-sensor-Scale-Modul-Arduino-Raspberry-Pi-Gewicht-/252712602933), but I have to modify the board slightly:
+I bought [this one](https://www.ebay.es/itm/HX711-Board-Chip-Waage-Gewichts-sensor-Scale-Modul-Arduino-Raspberry-Pi-Gewicht-/252712602933), but I have to modify the board slightly (the second pin should be connected to the first one, Vcc, instead of ground, default. https://forum.arduino.cc/t/hx711-soldering-for-80-hz/630699 I think it is easier to cut the small track):
 ![hx711 hack](images/hx711_fix.png)
 
 Connection to the PiZeroW

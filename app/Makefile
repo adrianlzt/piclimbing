@@ -3,6 +3,9 @@ NAME=piclimbing
 # TODO build frontend before pkger
 all: frontend pkger build_rpizero build_amd64 build_windows_amd64
 
+frontend:
+	@echo "build frontend before!"
+
 # Insert the frontend code in pkged.go
 pkger:
 	pkger
@@ -19,7 +22,7 @@ build_windows_amd64:
 build_osx:
 	GOOS=darwin go build -o ${NAME}.osx
 
-.PHONY: all build_amd64 build_rpizero build_windows_amd64 pkger
+.PHONY: all build_amd64 build_rpizero build_windows_amd64 pkger frontend
 
 
 # vim:ft=make
